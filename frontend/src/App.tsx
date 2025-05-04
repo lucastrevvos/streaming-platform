@@ -1,5 +1,9 @@
 function App() {
-  return <div className="text-4xl text-blue-500 font-bold">Testando</div>;
+  return (
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <h1 className="text-4xl text-blue-500 font-bold">Streaming Platform</h1>
+    </div>
+  );
 }
 
 export default App;
