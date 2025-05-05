@@ -11,10 +11,13 @@ const JWT_SECRET = process.env.JWT_SECRET || "defaultsecret";
 
 let TEST_EMAIL: string;
 const TEST_PASSWORD = "123456";
+let ID_USER: number;
 
 describe("Playlist Endpoints - Error Handling", () => {
   afterAll(async () => {
+    await prisma.playlist.deleteMany();
     await prisma.user.deleteMany({ where: { email: TEST_EMAIL } });
+
     await prisma.$disconnect();
   });
 
@@ -26,7 +29,7 @@ describe("Playlist Endpoints - Error Handling", () => {
       password: TEST_PASSWORD,
     });
     const token = jwt.sign(
-      { id: newUser.body.userId, email: TEST_EMAIL },
+      { id: newUser.body.userId, email: newEmail },
       JWT_SECRET
     );
 
@@ -38,5 +41,29 @@ describe("Playlist Endpoints - Error Handling", () => {
     expect(res.body).toHaveProperty("error", "Playlist não encontrada");
 
     TEST_EMAIL = newEmail;
+    ID_USER = newUser.body.userId;
+  });
+
+  it("should create a playlist for authenticated user", async () => {
+    const token = jwt.sign({ id: ID_USER, email: TEST_EMAIL }, JWT_SECRET);
+
+    const createRes = await request(app)
+      .post("/playlists")
+      .set("Authorization", `Bearer ${token}`)
+      .send({ name: "Minha playlist" });
+
+    expect(createRes.statusCode).toBe(201);
+    expect(createRes.body).toHaveProperty("name", "Minha playlist");
+  });
+
+  it("should return all playlists for authenticated user", async () => {
+    const token = jwt.sign({ id: ID_USER, email: TEST_EMAIL }, JWT_SECRET);
+
+    const res = await request(app)
+      .get("/playlists")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(res.statusCode).toBe(200);
+    expect(Array.isArray(res.body)).toBe(true);
   });
 });
