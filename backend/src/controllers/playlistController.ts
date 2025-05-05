@@ -1,7 +1,7 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import { createPlaylistSchema } from "../schemas/playlistSchema";
-import { z } from "zod";
+import { AppError } from "../errors/AppError";
 
 const prisma = new PrismaClient();
 
@@ -17,7 +17,9 @@ export async function getPlaylistById(
   const id = Number(req.params.id);
   const playlist = await prisma.playlist.findUnique({ where: { id } });
 
-  if (!playlist) res.status(404).json({ error: "Playlist não encontrada" });
+  if (!playlist) {
+    throw new AppError("Playlist não encontrada", 404);
+  }
 
   res.json(playlist);
 }
@@ -30,18 +32,14 @@ export async function createPlaylist(
   try {
     const parsed = createPlaylistSchema.parse(req.body);
 
-    const userId = (req.user as { id: number }).id;
+    const userId = req.user!.id;
 
-    await prisma.playlist.create({
+    const playlist = await prisma.playlist.create({
       data: { name: parsed.name, userId },
     });
 
-    res.status(201).json({ message: "Playlist criada com sucesso" });
+    res.status(201).json(playlist);
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      res.status(400).json({ errors: error.errors });
-      return;
-    }
     next(error);
   }
 }
@@ -59,8 +57,9 @@ export async function updatePlaylist(
       where: { id },
     });
 
-    if (!findPlaylistById)
-      res.status(404).json({ error: "Playlist não encontrada" });
+    if (!findPlaylistById) {
+      throw new AppError("Playlist não encontrada", 404);
+    }
 
     const playlist = await prisma.playlist.update({
       where: { id },
@@ -69,9 +68,6 @@ export async function updatePlaylist(
 
     res.json(playlist);
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      res.status(400).json({ errors: error.errors });
-    }
     next(error);
   }
 }
@@ -84,7 +80,10 @@ export async function deletePlaylist(
 
   const playlist = await prisma.playlist.findUnique({ where: { id } });
 
-  if (!playlist) res.status(404).json({ error: "Playlist não encontrada" });
+  if (!playlist) {
+    throw new AppError("Playlist não encontrada", 404);
+  }
+
   await prisma.playlist.delete({ where: { id } });
   res.status(204).end();
 }
