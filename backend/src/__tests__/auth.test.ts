@@ -11,6 +11,7 @@ const TEST_PASSWORD = "123456";
 describe("Auth Endpoints", () => {
   afterAll(async () => {
     await prisma.user.deleteMany({ where: { email: TEST_EMAIL } });
+    await prisma.$disconnect();
   });
   it("should register a new user", async () => {
     const newEmail = `user_${Date.now()}@email.com`;
