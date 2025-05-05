@@ -6,8 +6,11 @@ import {
   updatePlaylist,
   deletePlaylist,
 } from "../controllers/playlistController";
+import { verifyToken } from "../middlewares/verifyToken";
 
 const router = Router();
+
+router.use(verifyToken);
 
 router.get("/", getAllPlaylists);
 router.get("/:id", getPlaylistById);

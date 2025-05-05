@@ -30,8 +30,10 @@ export async function createPlaylist(
   try {
     const parsed = createPlaylistSchema.parse(req.body);
 
+    const userId = (req.user as { id: number }).id;
+
     await prisma.playlist.create({
-      data: { name: parsed.name, userId: 1 },
+      data: { name: parsed.name, userId },
     });
 
     res.status(201).json({ message: "Playlist criada com sucesso" });
