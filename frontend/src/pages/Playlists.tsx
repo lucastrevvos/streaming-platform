@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
+import api from "../api";
 
 type Playlist = {
   id: number;
@@ -18,11 +18,10 @@ export default function Playlists() {
       try {
         const token = localStorage.getItem("token");
         if (!token) {
-          setError("Token não encontrado. Faça login novamente.");
           return;
         }
 
-        const response = await axios.get("http://localhost:3000/playlists", {
+        const response = await api.get("/playlists", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -39,11 +38,20 @@ export default function Playlists() {
 
   return (
     <div className="p-4">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">Minhas Playlists</h1>
+      <h1 className="text-2xl font-bold">Minhas Playlists</h1>
+      <div className="flex items-center gap-4">
         <Link to="/albums" className="text-blue-500 underline">
           Buscar Álbuns
         </Link>
+        <button
+          onClick={() => {
+            localStorage.removeItem("token");
+            window.location.href = "/";
+          }}
+          className="bg-red-500 text-white px-4 py-2 rounded"
+        >
+          Logout
+        </button>
       </div>
       {error && <p className="text-red-500">{error}</p>}
       <form
@@ -57,18 +65,15 @@ export default function Playlists() {
               return;
             }
 
-            await axios.post(
-              "http://localhost:3000/playlists",
+            await api.post(
+              "/playlists",
               { name: newPlaylist },
               { headers: { Authorization: `Bearer ${token}` } }
             );
 
-            const response = await axios.get(
-              "http://localhost:3000/playlists",
-              {
-                headers: { Authorization: `Bearer ${token}` },
-              }
-            );
+            const response = await api.get("/playlists", {
+              headers: { Authorization: `Bearer ${token}` },
+            });
             setPlaylists(response.data);
             setNewPlaylist("");
           } catch (err: any) {

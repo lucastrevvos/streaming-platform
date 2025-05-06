@@ -1,17 +1,19 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Playlists from "./pages/Playlists";
 import Albums from "./pages/Albums";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/albums" element={<Albums />} />
+    <Routes>
+      <Route path="/" element={<Login />} />
+
+      <Route element={<PrivateRoute />}>
         <Route path="/playlists" element={<Playlists />} />
-      </Routes>
-    </Router>
+        <Route path="/albums" element={<Albums />} />
+      </Route>
+    </Routes>
   );
 }
 
