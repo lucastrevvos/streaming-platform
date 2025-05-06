@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 type Playlist = {
   id: number;
@@ -38,7 +39,12 @@ export default function Playlists() {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Minhas Playlists</h1>
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-bold">Minhas Playlists</h1>
+        <Link to="/albums" className="text-blue-500 underline">
+          Buscar Álbuns
+        </Link>
+      </div>
       {error && <p className="text-red-500">{error}</p>}
       <form
         onSubmit={async (e) => {
