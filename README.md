@@ -1,9 +1,9 @@
 ```md
-# 🎵 Streaming Platform
+# Streaming Platform
 
 Plataforma de streaming com gerenciamento de playlists, autenticação de usuários e integração com API externa de álbuns.
 
-## 🚀 Tecnologias utilizadas
+## ✅ Tecnologias utilizadas
 
 - Backend: Node.js + Express + Prisma
 - Banco de dados: PostgreSQL (local via Docker)
@@ -14,7 +14,7 @@ Plataforma de streaming com gerenciamento de playlists, autenticação de usuár
 
 ---
 
-## 📦 Funcionalidades
+## ✅ Funcionalidades
 
 ✅ Autenticação JWT  
 ✅ CRUD de playlists (criar, listar, editar, excluir)  
@@ -25,14 +25,14 @@ Plataforma de streaming com gerenciamento de playlists, autenticação de usuár
 
 ---
 
-## 📝 Como rodar o projeto localmente
+## ✅ Como rodar o projeto localmente
 
-### 1️⃣ Clone o repositório
+### 1️ Clone o repositório
 
     git clone https://github.com/lucastrevvos/streaming-platform.git
     cd streaming-platform
 
-### 2️⃣ Configure o ambiente
+### 2️ Configure o ambiente
 
 Crie um arquivo `.env` dentro da pasta `backend/prisma` com o conteúdo:
 
@@ -43,7 +43,7 @@ Crie um arquivo `.env` dentro da pasta `backend/prisma` com o conteúdo:
 
 ---
 
-### 3️⃣ Rode o banco de dados com Docker
+### 3️ Rode o banco de dados com Docker
 
     docker-compose up -d
 
@@ -55,14 +55,14 @@ O banco estará disponível em `localhost:5432` com:
 
 ---
 
-### 4️⃣ Aplique as migrations no banco
+### 4️ Aplique as migrations no banco
 
     cd backend
     npx prisma migrate deploy
 
 ---
 
-### 5️⃣ Instale as dependências e rode o backend
+### 5️ Instale as dependências e rode o backend
 
     npm install
     npm run dev
@@ -71,7 +71,7 @@ O backend estará disponível em `http://localhost:3000`.
 
 ---
 
-### 6️⃣ Instale as dependências e rode o frontend
+### 6️ Instale as dependências e rode o frontend
 
     cd ../frontend
     npm install
@@ -81,7 +81,7 @@ O frontend estará disponível em `http://localhost:5173`.
 
 ---
 
-## 👤 Criar usuário para login
+## ✅ Criar usuário para login
 
 Faça uma requisição POST para `/auth/register` com:
 
@@ -98,16 +98,16 @@ Exemplo com curl:
 
 ---
 
-## 🧪 Rodar os testes
+## ✅ Rodar os testes
 
     cd backend
     npm run test
 
 ---
 
-## 📚 Documentação da API
+## ✅ Documentação da API
 
-### 🔐 Auth
+### ✅ Auth
 
 | Método | Rota           | Descrição             |
 | ------ | -------------- | --------------------- |
@@ -118,7 +118,7 @@ Exemplo com curl:
 
 ---
 
-### 🎶 Playlists
+### ✅ Playlists
 
 | Método | Rota           | Descrição                           |
 | ------ | -------------- | ----------------------------------- |
@@ -130,7 +130,7 @@ Exemplo com curl:
 
 ---
 
-### 📀 Álbuns
+### ✅ Álbuns
 
 | Método | Rota                     | Descrição                                          |
 | ------ | ------------------------ | -------------------------------------------------- |
@@ -147,7 +147,7 @@ Exemplo com curl:
 
 ---
 
-## 🤝 Contato
+## ✅ Contato
 
 Desenvolvido por **Lucas Amaral**  
 GitHub: [https://github.com/lucastrevvos](https://github.com/lucastrevvos)
